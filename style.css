@@ -1,333 +1,255 @@
 @charset "UTF-8";
 
+/* GLOBAL RESET */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  padding: 3rem 1.5rem;
   font-family: "Montserrat", sans-serif;
   background: radial-gradient(circle at top left, #0f172a, #020617);
   color: #f9fafb;
+  display: flex;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* LAYOUT */
-
+/* WRAPPER */
 .wrapper {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
+  flex-wrap: wrap;
   gap: 2rem;
-  max-width: 1100px;
+  justify-content: center;
   width: 100%;
-  margin: 0 auto;
+  max-width: 1100px;
 }
 
 /* CARD BASE */
-
 .card {
   width: 340px;
-  max-width: 100%;
   height: 340px;
-  margin: 1em;
-  perspective: 1500px;
-  overflow: hidden;
-}
-
-.card .content {
+  perspective: 1200px;
   position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.75, 0, 0.85, 1);
 }
 
 .more {
   display: none;
 }
 
+/* CARD CONTENT (3D stage) */
+.content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.75, 0, 0.85, 1);
+}
+
+/* Flip action */
 .more:checked ~ .content {
   transform: rotateY(180deg);
 }
 
+/* FRONT & BACK SHARED */
 .front,
 .back {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  border-radius: 16px;
   backface-visibility: hidden;
   transform-style: preserve-3d;
-  border-radius: 16px;
+  overflow: hidden;
 }
 
-/* FRONT – PRODUCT HERO */
-
+/* FRONT */
 .front {
-  background-color: #020617;
-  background-size: cover;
-  background-position: center center;
+  background: #020617;
 }
 
-.front::after {
+.front:after {
   content: "";
   position: absolute;
   inset: 0;
-  display: block;
   border-radius: 16px;
   backface-visibility: hidden;
-  background: linear-gradient(
-    135deg,
-    rgba(79, 70, 229, 0.95),
-    rgba(236, 72, 153, 0.9)
-  );
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(236, 72, 153, 0.9));
 }
 
 .front .inner {
-  height: 100%;
   display: grid;
-  padding: 1.5em;
-  transform: translateZ(80px) scale(0.94);
   grid-template-rows: 1fr 2fr 1fr 2fr 1fr;
   justify-items: center;
   align-items: center;
+  padding: 1.5rem;
   text-align: center;
+  transform: translateZ(65px);
 }
 
 .front h2 {
-  grid-row: 2;
-  margin-bottom: 0.2em;
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: #fff;
-  font-weight: 600;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.35);
+  font-weight: 700;
+  color: white;
 }
 
 .front .badge {
-  grid-row: 1;
-  justify-self: flex-start;
-  align-self: flex-start;
+  align-self: start;
+  justify-self: start;
+  background: #facc15;
   padding: 0.25em 0.75em;
   border-radius: 999px;
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  font-size: 0.75rem;
   font-weight: 600;
   color: #0b1020;
-  background: #facc15;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .front .tagline {
-  grid-row: 3;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.9rem;
+  color: #e5e7eb;
+  opacity: 0.9;
 }
 
 .front .price {
-  grid-row: 4;
-  font-size: 1.6rem;
+  font-size: 1.7rem;
   font-weight: 700;
-  color: #f9fafb;
 }
 
 .front .rating {
-  grid-row: 5;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
   display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
   gap: 4px;
+  font-size: 0.85rem;
+  opacity: 0.9;
 }
 
-.front .rating i {
-  margin: 0 1px;
-}
-
-.front .rating span {
-  margin-left: 6px;
-  font-size: 0.8rem;
-  opacity: 0.8;
-}
-
-/* CARD VARIANTS */
-
-.card--lite .front::after {
-  background: linear-gradient(
-    135deg,
-    rgba(45, 212, 191, 0.95),
-    rgba(59, 130, 246, 0.95)
-  );
-}
-
-.card--pro .front::after {
-  background: linear-gradient(
-    135deg,
-    rgba(79, 70, 229, 0.95),
-    rgba(16, 185, 129, 0.95)
-  );
-}
-
-.card--ultra .front::after {
-  background: linear-gradient(
-    135deg,
-    rgba(236, 72, 153, 0.98),
-    rgba(239, 68, 68, 0.98)
-  );
-}
-
-/* BACK – SIMPLE, NO OVERFLOW LAYOUT */
-
+/* BACK */
 .back {
   transform: rotateY(180deg);
-  background-color: #020617;
+  background: #020617;
   border: 1px solid rgba(148, 163, 184, 0.4);
 }
 
 .back .inner {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 1.5em;
-  transform: translateZ(80px) scale(0.94);
-  gap: 0.75rem;
-  color: #e5e7eb;
-}
-
-.back .segment,
-.back .price {
-  font-size: 0.86em;
-  font-weight: 600;
-}
-
-.back .segment {
-  opacity: 0.9;
+  display: grid;
+  grid-template-rows: auto auto auto auto 1fr auto;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 1.4rem;
+  gap: 0.7rem;
+  transform: translateZ(65px);
 }
 
 .back h3 {
-  font-size: 0.95rem;
+  grid-column: 1 / -1;
   text-transform: uppercase;
+  text-align: center;
   letter-spacing: 2px;
-  text-align: left;
-  margin: 0.5rem 0 0.25rem;
 }
 
-.back .info-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
+.segment {
+  grid-column: 1 / 3;
+  opacity: 0.85;
+  font-weight: 600;
 }
 
-/* we’ll just use .info inside a flex row instead of grid columns */
-.back .info {
+.price {
+  grid-column: 3 / 5;
+  justify-self: end;
+  font-weight: 600;
+}
+
+.info {
   display: flex;
   align-items: center;
-  color: #93c5fd;
-  font-size: 0.8rem;
+  gap: 6px;
 }
 
-.back .info span {
+.info span {
   font-weight: 700;
-  margin-right: 0.35rem;
-  font-size: 0.95rem;
 }
 
-.back .info i {
-  font-size: 0.95rem;
-  margin-right: 0.25rem;
+.info .icon {
+  font-size: 0.8rem;
+  opacity: 0.9;
 }
 
-.back .info .icon span {
-  font-weight: 500;
-  font-size: 0.78rem;
-}
-
-.back .description {
-  font-size: 0.86em;
-  border-radius: 5px;
-  font-weight: 500;
-  line-height: 1.4em;
-  overflow: auto;
-  color: #e5e7eb;
+/* DESCRIPTION */
+.description {
+  grid-column: 1 / -1;
+  max-height: 120px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  line-height: 1.4;
   padding-right: 8px;
 }
 
-/* CTA BUTTONS */
-
+/* BUTTON STYLES */
 .button {
-  margin-top: auto;
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+  padding: 0.7rem 1.7rem;
+  border-radius: 999px;
+  border: 2px solid #fff;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 600;
   cursor: pointer;
-  display: inline-block;
-  padding: 0 1.5em;
-  height: 3em;
-  line-height: 2.9em;
-  min-width: 3em;
-  background-color: transparent;
-  border: solid 2px #fff;
-  color: #fff;
-  border-radius: 999px;
   text-align: center;
-  backface-visibility: hidden;
-  transition: 0.3s ease-in-out;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  color: white;
+  background: transparent;
+  transition: 0.3s;
 }
 
 .button:hover {
-  background-color: #fff;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
-  text-shadow: none;
+  background: white;
   color: #355cc9;
 }
 
-.button.return {
-  color: #93c5fd;
-  border-color: #93c5fd;
-  text-shadow: none;
+/* Return button */
+.return {
+  border-color: #355cc9;
+  color: #355cc9;
 }
 
-.button.return:hover {
-  background-color: #93c5fd;
-  color: #020617;
-  box-shadow: none;
+.return:hover {
+  background: #355cc9;
+  color: white;
 }
 
-/* SCROLLBAR FOR LONG DESCRIPTION */
+/* VARIANTS */
+.card--lite .front:after {
+  background: linear-gradient(135deg, rgba(45, 212, 191, 0.95), rgba(59, 130, 246, 0.95));
+}
 
+.card--pro .front:after {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(16, 185, 129, 0.95));
+}
+
+.card--ultra .front:after {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.98), rgba(239, 68, 68, 0.98));
+}
+
+/* SCROLLBAR */
 ::-webkit-scrollbar {
   width: 5px;
 }
-
 ::-webkit-scrollbar-track {
   background: #0b1120;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #859ddf;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #355cc9;
 }
 
 /* RESPONSIVE */
-
 @media (max-width: 1024px) {
-  .wrapper {
-    flex-direction: column;
-    align-items: center;
-  }
-
   .card {
     width: 100%;
     max-width: 360px;
